@@ -1,67 +1,68 @@
--- lua´Â "--" °¡ ÁÖ¼®ÀÌ´Ù.
+-- luaëŠ” "--" ê°€ ì£¼ì„ì´ë‹¤.
 
-workspace "Hazel"		-- ¼Ö·ç¼Ç ÆÄÀÏ ÀÌ¸§
-	architecture "x64"	-- ¼Ö·ç¼ÇÀÇ architecture, 64bit ·Î ¼³Á¤
+workspace "Hazel"		-- ì†”ë£¨ì…˜ íŒŒì¼ ì´ë¦„
+	architecture "x64"	-- ì†”ë£¨ì…˜ì˜ architecture, 64bit ë¡œ ì„¤ì •
+	startproject "SandBox"		-- ì‹œì‘ í”„ë¡œì íŠ¸ ì„¤ì •
 
-	configurations		-- ±¸¼º (debug ¸ğµå, release ¸ğµå µî ¾î¶² ±¸¼ºÀÌ ÀÖ´ÂÁö?)
+	configurations		-- êµ¬ì„± (debug ëª¨ë“œ, release ëª¨ë“œ ë“± ì–´ë–¤ êµ¬ì„±ì´ ìˆëŠ”ì§€?)
 	{
 		"Debug",
 		"Release",
 		"Dist"
 	}
 
--- °á°ú¹° Æú´õ °æ·Î¸¦ outputdit º¯¼ö¿¡ ÀúÀå
+-- ê²°ê³¼ë¬¼ í´ë” ê²½ë¡œë¥¼ outputdit ë³€ìˆ˜ì— ì €ì¥
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "Hazel"			-- ÇÁ·ÎÁ§Æ® ÀÌ¸§
+project "Hazel"			-- í”„ë¡œì íŠ¸ ì´ë¦„
 	location "Hazel"
-	kind "SharedLib"	-- ºôµå ÈÄ »ı¼ºµÇ´Â ÆÄÀÏÀÇ Á¾·ù (ex. ½ÇÇàÆÄÀÏ(exe)ÀÎÁö ¶óÀÌºê·¯¸®(lib or dll)ÀÎÁö
-	language "C++"		-- »ç¿ë ¾ğ¾î
+	kind "SharedLib"	-- ë¹Œë“œ í›„ ìƒì„±ë˜ëŠ” íŒŒì¼ì˜ ì¢…ë¥˜ (ex. ì‹¤í–‰íŒŒì¼(exe)ì¸ì§€ ë¼ì´ë¸ŒëŸ¬ë¦¬(lib or dll)ì¸ì§€
+	language "C++"		-- ì‚¬ìš© ì–¸ì–´
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")	-- »ı¼ºÆÄÀÏ(exe, lib, dll) °æ·Î¼³Á¤
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")	-- obj ÆÄÀÏ°æ·Î ¼³Á¤
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")	-- ìƒì„±íŒŒì¼(exe, lib, dll) ê²½ë¡œì„¤ì •
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")	-- obj íŒŒì¼ê²½ë¡œ ì„¤ì •
 
-	files	-- ¾î¶² ÆÄÀÏµéÀ» ÄÄÆÄÀÏ ÇÒ °ÍÀÎÁö?
+	files	-- ì–´ë–¤ íŒŒì¼ë“¤ì„ ì»´íŒŒì¼ í•  ê²ƒì¸ì§€?
 	{
-		"%{prj.name}/src/**.h",		-- ÇÁ·ÎÁ§Æ® ÀÌ¸§ Æú´õ -> src Æú´õ ¾È¿¡ ÀÖ´Â ¸ğµç Çì´õÆÄÀÏµé
-		"%{prj.name}/src/**.cpp"	-- À§¿Í µ¿ÀÏÇÑ °æ·Î¿¡ ÀÖ´Â cpp ÆÄÀÏµé
+		"%{prj.name}/src/**.h",		-- í”„ë¡œì íŠ¸ ì´ë¦„ í´ë” -> src í´ë” ì•ˆì— ìˆëŠ” ëª¨ë“  í—¤ë”íŒŒì¼ë“¤
+		"%{prj.name}/src/**.cpp"	-- ìœ„ì™€ ë™ì¼í•œ ê²½ë¡œì— ìˆëŠ” cpp íŒŒì¼ë“¤
 	}
 
-	includedirs		-- Ãß°¡ Æ÷ÇÔ µğ·ºÅä¸® °æ·Î ¼³Á¤
+	includedirs		-- ì¶”ê°€ í¬í•¨ ë””ë ‰í† ë¦¬ ê²½ë¡œ ì„¤ì •
 	{
-		"%{prj.name}/vendor/spdlog/include"	-- »çÁø 2 ÂüÁ¶
+		"%{prj.name}/vendor/spdlog/include"	-- ì‚¬ì§„ 2 ì°¸ì¡°
 	}
 
-	filter "system:windows"		-- Æ¯Á¤È¯°æ¿¡ ´ëÇÑ ¼³Á¤ (ex. window È¯°æ)
+	filter "system:windows"		-- íŠ¹ì •í™˜ê²½ì— ëŒ€í•œ ì„¤ì • (ex. window í™˜ê²½)
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "latest"		-- 10.0 ¶Ç´Â latest »ç¿ëÇÏ¿© À©µµ¿ì¹öÀüÀ» ÃÖ½ÅÀ¸·Î ¼³Á¤. »çÁø 3 ÂüÁ¶. 
+		systemversion "latest"		-- 10.0 ë˜ëŠ” latest ì‚¬ìš©í•˜ì—¬ ìœˆë„ìš°ë²„ì „ì„ ìµœì‹ ìœ¼ë¡œ ì„¤ì •. ì‚¬ì§„ 3 ì°¸ì¡°. 
 
-		defines		-- ÀüÃ³¸®±â ¼³Á¤. »çÁø 1 ÂüÁ¶.
+		defines		-- ì „ì²˜ë¦¬ê¸° ì„¤ì •. ì‚¬ì§„ 1 ì°¸ì¡°.
 		{
-			"HZ_PLATFORM_WINDOWS",		-- Hazel ÇÁ·ÎÁ§Æ®¿¡´Â ÀÌ·¯ÇÑ ÀüÃ³¸®°¡ ÀÖ´Ù.
+			"HZ_PLATFORM_WINDOWS",		-- Hazel í”„ë¡œì íŠ¸ì—ëŠ” ì´ëŸ¬í•œ ì „ì²˜ë¦¬ê°€ ìˆë‹¤.
 			"HZ_BUILD_DLL"
 		}
 
 		postbuildcommands
 		{
 			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-			-- hazel µğ·ºÅÍ¸®¿¡ ÀÖ´Â dll ÆÄÀÏÀ» sandbox µğ·ºÅÍ¸®¿¡ º¹»çÇØÁÖ´Â ¸í·É
+			-- hazel ë””ë ‰í„°ë¦¬ì— ìˆëŠ” dll íŒŒì¼ì„ sandbox ë””ë ‰í„°ë¦¬ì— ë³µì‚¬í•´ì£¼ëŠ” ëª…ë ¹
 		}
 
-	filter "configurations:Debug"	-- µğ¹ö±× ±¸¼ºÀÏ ¶§ ¼³Á¤
+	filter "configurations:Debug"	-- ë””ë²„ê·¸ êµ¬ì„±ì¼ ë•Œ ì„¤ì •
 		defines "HZ_DEBUG"
 		symbols "On"
 
-	filter "configurations:Release"	-- ¸±¸®ÁîÀÏ¶§..
+	filter "configurations:Release"	-- ë¦´ë¦¬ì¦ˆì¼ë•Œ..
 		defines "HZ_RELEASE"
 		optimize "On"
 
-	filter "configurations:Dist"		-- dist ±¸¼ºÀÏ ¶§..
+	filter "configurations:Dist"		-- dist êµ¬ì„±ì¼ ë•Œ..
 		defines "HZ_DIST"
 		optimize "On"
 
-project "SandBox"		-- ÇÁ·ÎÁ§Æ® ÀÌ¸§ (ÀÛ¼º½ÃÁ¡ ±âÁØ ¼Ö·ç¼Ç ¾È¿¡´Â Hazel°ú SandBox ÇÁ·ÎÁ§Æ®°¡ ÀÖ´Ù.)
+project "SandBox"		-- í”„ë¡œì íŠ¸ ì´ë¦„ (ì‘ì„±ì‹œì  ê¸°ì¤€ ì†”ë£¨ì…˜ ì•ˆì—ëŠ” Hazelê³¼ SandBox í”„ë¡œì íŠ¸ê°€ ìˆë‹¤.)
 	location "SandBox"
 	kind "ConsoleApp"
 	language "C++"
@@ -77,13 +78,13 @@ project "SandBox"		-- ÇÁ·ÎÁ§Æ® ÀÌ¸§ (ÀÛ¼º½ÃÁ¡ ±âÁØ ¼Ö·ç¼Ç ¾È¿¡´Â Hazel°ú SandBox
 
 	includedirs
 	{
-		"Hazel/vendor/spdlog/include",	-- »çÁø 2 ÂüÁ¶
-		"Hazel/src"		-- Hazel.h ¸¦ ÀÎÅ¬·çµå
+		"Hazel/vendor/spdlog/include",	-- ì‚¬ì§„ 2 ì°¸ì¡°
+		"Hazel/src"		-- Hazel.h ë¥¼ ì¸í´ë£¨ë“œ
 	}
 
 	links
 	{
-		"Hazel"		-- ¸µÅ©ÇÒ ÇÁ·ÎÁ§Æ®¸¦ Àû´Â´Ù.
+		"Hazel"		-- ë§í¬í•  í”„ë¡œì íŠ¸ë¥¼ ì ëŠ”ë‹¤.
 	}
 
 	filter "system:windows"
@@ -91,7 +92,7 @@ project "SandBox"		-- ÇÁ·ÎÁ§Æ® ÀÌ¸§ (ÀÛ¼º½ÃÁ¡ ±âÁØ ¼Ö·ç¼Ç ¾È¿¡´Â Hazel°ú SandBox
 		staticruntime "On"
 		systemversion "latest"
 
-		defines		-- »çÁø 1 ÂüÁ¶
+		defines		-- ì‚¬ì§„ 1 ì°¸ì¡°
 		{
 			"HZ_PLATFORM_WINDOWS"
 		}
