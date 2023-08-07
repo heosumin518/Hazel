@@ -30,15 +30,16 @@ project "Hazel"			-- 프로젝트 이름
 
 	includedirs		-- 추가 포함 디렉토리 경로 설정
 	{
-		"%{prj.name}/vendor/spdlog/include"	-- 사진 2 참조
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include"
 	}
 
 	filter "system:windows"		-- 특정환경에 대한 설정 (ex. window 환경)
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "latest"		-- 10.0 또는 latest 사용하여 윈도우버전을 최신으로 설정. 사진 3 참조. 
+		systemversion "latest"		-- 10.0 또는 latest 사용하여 윈도우버전을 최신으로 설정.
 
-		defines		-- 전처리기 설정. 사진 1 참조.
+		defines		-- 전처리기 설정.
 		{
 			"HZ_PLATFORM_WINDOWS",		-- Hazel 프로젝트에는 이러한 전처리가 있다.
 			"HZ_BUILD_DLL"
